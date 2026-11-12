@@ -4,6 +4,7 @@
 - 커밋 author/committer는 GitHub noreply 주소를 쓴다. 개인 이메일을 Git 이력·문서·로그에 넣지 않는다. 로컬 `core.hooksPath=.githooks`를 설정하고 push 전 `python3 scripts/check_public_history.py`를 실행한다.
 - 이 저장소는 MinyQuant다. MinyAI와 분리된 주식 서비스이며 사용자의 최신 지시가 우선한다.
 - 작업 전 START_HERE.md, docs/implementation/STATUS.md, BOARD.md, TASKS.md와 실제 브랜치·HEAD·미커밋 변경을 확인한다. 사용자 변경과 다른 작업자의 원격 커밋을 보존한다.
+- 2026-11-12 사용자 결정: 먼저 Q-M00의 작은 클릭형 목업으로 사용 흐름을 검토하고, 검토 결과를 반영해 기존 Q00부터 구현한다. 전체 재설계나 실제 주문/유료 연결을 목업에 섞지 않는다.
 - 코드 예정 위치는 루트 `src/minyquant/`, 시험은 루트 `tests/`다. 현재 실행 가능한 패키지는 없으며 Q00에서 환경·패키지·로컬 테스트를 준비한다.
 - MinyAI 소스나 내부 DB를 직접 import/공유하지 않는다. 연결은 docs/integration/minyai.md를 따른다. MinyAI의 개발 완료와 무관하게 fake·합성 데이터로 독립 개발한다.
 - 국내·해외 모델을 지원하되 첫 외부 구현은 한 broker adapter·한 시장부터 검증한다. 증권사·계좌·해외 국가 미정이 로컬 구현을 막지 않는다.

@@ -10,3 +10,15 @@ MinyAI는 계획·기억·공통 UI·권한 전달·서비스 상태를 담당�
 - 코어 연결 중단 중에도 내부 대사·안전 중지는 유지한다. 신규 위험 확대는 승인/위임·heartbeat 신선도 규칙을 따른다. 코어 미설치와 내부 연구·fake 시험 가능 여부는 구분한다.
 - 금융 데이터/키는 MinyQuant가 소유한다. MinyAI에는 필요한 요약·상태만 반환하고 계좌 식별정보·원본 자료를 생활 기억에 자동 적재하지 않는다.
 - fake 서비스와 fake 코어로 버전 불일치·권한 초과·응답 유실·중복/역순 이벤트·취소 경쟁을 양쪽에서 검증한 뒤 실제 연결한다.
+
+## 분석 요청 계약 v0.1 (구현 전 명세)
+
+Quant 컨트롤러는 금융 수집·분석의 일정, 데이터 변화에 따른 재분석 필요성, 업무 재시도와 최종 결과 채택을 소유한다. MinyAI 컨트롤러는 공통 전달·장비 전원·GPU 입장/할당과 실행 시도의 상태를 소유한다. MinyAI에 같은 금융 일정을 다시 등록하거나 전송 성공을 금융 업무 완료로 판정하지 않는다.
+
+- Quant의 `quant_job_id`와 MinyAI의 `request_id`/`task_id`를 영속 연결한다. 동일 업무 재전달은 같은 `request_id`·중복키를 쓰고 실행 시도만 `attempt`/`fencing_token`으로 구분한다. Quant는 상태 조회로 불명 결과를 해소한 뒤 업무 재시도를 결정하며, 새 데이터에 의한 재분석은 새 job과 `supersedes_job_id`로 연결한다.
+- 요청: `contract_version=0.1`, 위 ID들, 변경 불가 `dataset_version`/해시/접근 참조, `strategy_version`, `model_version`, `prompt_version`, UTC `deadline`·`result_expires_at`, `max_attempts`, CPU/RAM/VRAM·GPU초·전체 경과시간·출력 크기·비용 상한, `budget_ref`, `result_schema_version`, 대상 제한 권한 참조. 모델을 쓰지 않으면 버전을 명시적 `not_applicable`로 기록한다.
+- 결과: 버전 있는 JSON으로 job/request/task/attempt/fence, 입력·전략·모델·프롬프트 버전, `status`, 생성·만료 시각, 근거 참조, 분석/종목 후보, 자원·비용 사용량(실측/추정/미확인), `error_class`를 반환한다. 주문 실행이나 승인 발급은 결과 형식에 포함하지 않는다.
+- MinyAI의 전달/기동 재시도는 요청의 횟수·시간·예산 안에서만 수행하고 Quant가 동시에 다른 job으로 재시도하지 않는다. 부팅 실패·GPU 부족은 `resource_unavailable`, deadline 초과는 `expired`로 보고한다. 응답 유실은 같은 ID로 조회하고 미확인 유료 사용량 예약을 유지한다. 대안 모델/장비 사용은 사전 허용된 범위 안에서만 가능하다.
+- Quant는 현재 job/시도/fence, 버전·스키마·근거·만료를 검사해 결과를 한 번만 채택한다. 중복·취소·대체·오래된 시도·늦은 결과는 감사 후 배제하며 주문 후보로 승격하지 않는다. 주문 전송 직전에도 분석 만료를 재검사한다. 분석 실패와 무관하게 서버 수집·기존 주문 확인·대사·안전 중지·필수 기록은 유지한다.
+
+이 계약의 양쪽 fake 검증은 [Q-A01/Q-A02](../validation/ACCEPTANCE.md), 구현은 [T06-B](../implementation/TASKS.md#t06)와 코어 T10에서 수행한다. 코어의 실제 원격/전원 연결은 T04/T05 선행 조건을 따른다.

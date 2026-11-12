@@ -8,13 +8,13 @@
 
 ## 개발 시작
 
-[START_HERE](START_HERE.md) → [현재 상태](docs/implementation/STATUS.md) → [작업 보드](docs/implementation/BOARD.md) 순서로 읽습니다. 첫 작업은 Q00입니다. MinyAI 구현 완료나 증권사 키 없이 로컬 모델·fake 브로커부터 개발할 수 있습니다.
+[START_HERE](START_HERE.md) → [현재 상태](docs/implementation/STATUS.md) → [작업 보드](docs/implementation/BOARD.md) 순서로 읽습니다. 첫 작업은 **Q-M00 — 작은 클릭형 목업 검토**이며, 검토 후 기존 Q00의 개발 기준선을 준비합니다. MinyAI 구현 완료나 증권사 키 없이 로컬 모델·fake 브로커부터 개발할 수 있습니다.
 
 | 문서 | 내용 |
 |---|---|
 | [설계](docs/design.md) | 시장·자금·주문·위험·대사 계약 |
-| [작업 카드](docs/implementation/TASKS.md) | Q00 기준선, T06 연구·모의, T09 실전 게이트 |
-| [수용시험](docs/validation/ACCEPTANCE.md) | 인계한 A33~A41/A44, 모두 NOT RUN |
+| [작업 카드](docs/implementation/TASKS.md) | Q-M00 목업, Q00 기준선, T06 연구·모의, T09 실전 게이트 |
+| [수용시험](docs/validation/ACCEPTANCE.md) | A33~A41/A44·Q-A01~Q-A10 및 목업 검토, 모두 NOT RUN |
 | [MinyAI 연결](docs/integration/minyai.md) | 공통 서비스 계약과 소유권 |
 | [운영·복구](docs/operations/RUNBOOK.md) | 운영 준비·정지·대사·복원 |
 | [이전 기록](docs/MIGRATION.md) | 출처 커밋과 문서 매핑 |
